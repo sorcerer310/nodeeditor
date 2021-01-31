@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 # version 3.4 is required as other do not work with C++14 and clang
 
-project(NodeEditor CXX)
+project(QtNodes CXX)
 
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
@@ -14,17 +14,18 @@ else()
   set(is_root_project ON)
 endif()
 
-set(NE_DEVELOPER_DEFAULTS "${is_root_project}" CACHE BOOL "Turns on default settings for development of NodeEditor")
+set(NODES_DEVELOPER_DEFAULTS "${is_root_project}" CACHE BOOL "Turns on default settings for development of QtNodes")
 
-option(BUILD_TESTING "Build tests" "${NE_DEVELOPER_DEFAULTS}")
-option(BUILD_EXAMPLES "Build Examples" "${NE_DEVELOPER_DEFAULTS}")
+option(BUILD_TESTING "Build tests" "${NODES_DEVELOPER_DEFAULTS}")
+option(BUILD_EXAMPLES "Build Examples" "${NODES_DEVELOPER_DEFAULTS}")
+option(BUILD_DOCS "Build Documentation" "${NODES_DEVELOPER_DEFAULTS}")
 option(BUILD_SHARED_LIBS "Build as shared library" ON)
 option(BUILD_DEBUG_POSTFIX_D "Append d suffix to debug libraries" OFF)
-option(NE_FORCE_TEST_COLOR "Force colorized unit test output" OFF)
+option(NODES_FORCE_TEST_COLOR "Force colorized unit test output" OFF)
 
 enable_testing()
 
-if(NE_DEVELOPER_DEFAULTS)
+if(NODES_DEVELOPER_DEFAULTS)
   set(CMAKE_CXX_STANDARD 14)
   set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -80,7 +81,7 @@ set(CPP_SOURCE_FILES
 # set BUILD_SHARED_LIBS option to OFF
 add_library(nodes ${CPP_SOURCE_FILES} ${RESOURCES})
 
-add_library(NodeEditor::nodes ALIAS nodes)
+add_library(QtNodes::nodes ALIAS nodes)
 
 
 target_include_directories(nodes
@@ -151,6 +152,10 @@ if(BUILD_EXAMPLES)
   add_subdirectory(examples)
 endif()
 
+if(BUILD_DOCS)
+  add_subdirectory(docs)
+endif()
+
 ##################
 # Automated Tests
 ##
@@ -165,30 +170,30 @@ endif()
 
 include(GNUInstallDirs)
 
-set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/NodeEditor)
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/QtNodes)
 
 install(TARGETS nodes
-  EXPORT NodeEditorTargets
+  EXPORT QtNodesTargets
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(EXPORT NodeEditorTargets
-  FILE NodeEditorTargets.cmake
-  NAMESPACE NodeEditor::
+install(EXPORT QtNodesTargets
+  FILE QtNodesTargets.cmake
+  NAMESPACE QtNodes::
   DESTINATION ${INSTALL_CONFIGDIR}
 )
 
 include(CMakePackageConfigHelpers)
 
-configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/NodeEditorConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/NodeEditorConfig.cmake
+configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/QtNodesConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/QtNodesConfig.cmake
   INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
 )
 
 install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/NodeEditorConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/QtNodesConfig.cmake
   DESTINATION ${INSTALL_CONFIGDIR}
 )

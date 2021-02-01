@@ -449,7 +449,7 @@ mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event)
 {
   QGraphicsItem::mouseDoubleClickEvent(event);
 
-  nodeScene()->nodeDoubleClicked(_nodeId);
+  Q_EMIT nodeScene()->nodeDoubleClicked(_nodeId);
 }
 
 
@@ -457,7 +457,7 @@ void
 NodeGraphicsObject::
 contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
-  nodeScene()->nodeContextMenu(_nodeId, mapToScene(event->pos()));
+  Q_EMIT nodeScene()->nodeContextMenu(_nodeId, mapToScene(event->pos()));
 }
 
 

@@ -5,8 +5,8 @@
 
 #include <QtWidgets/QWidget>
 
+#include "AbstractGraphModel.hpp"
 #include "Definitions.hpp"
-#include "GraphModel.hpp"
 #include "NodeGraphicsObject.hpp"
 #include "StyleCollection.hpp"
 

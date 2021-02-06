@@ -49,19 +49,6 @@ verticalSpacing() const
 }
 
 
-//QRectF
-//NodeGeometry::
-//entryBoundingRect() const
-//{
-//double const addon = 0.0;
-
-//return QRectF(0 - addon,
-//0 - addon,
-//_entryWidth + 2 * addon,
-//_entryHeight + 2 * addon);
-//}
-
-
 QRectF
 NodeGeometry::
 boundingRect() const
@@ -166,7 +153,7 @@ recalculateSizeIfFontChanged(QFont const &font) const
 
 QPointF
 NodeGeometry::
-portNodePosition(PortType const portType,
+portNodePosition(PortType const  portType,
                  PortIndex const index) const
 {
   auto const &nodeStyle = StyleCollection::nodeStyle();
@@ -215,8 +202,8 @@ portNodePosition(PortType const portType,
 
 QPointF
 NodeGeometry::
-portScenePosition(PortType const portType,
-                  PortIndex const index,
+portScenePosition(PortType const    portType,
+                  PortIndex const   index,
                   QTransform const &t) const
 {
   QPointF result = portNodePosition(portType, index);
@@ -311,14 +298,11 @@ widgetPosition() const
 
 int
 NodeGeometry::
-equivalentWidgetHeight() const
+maxInitialWidgetHeight() const
 {
   QSize size =
     _graphModel.nodeData(_ngo.nodeId(), NodeRole::Size).value<QSize>();
-  //if (_dataModel->validationState() != NodeValidationState::Valid)
-  //{
-  //return height() - captionHeight() + validationHeight();
-  //}
+
   return size.height() - captionHeight();
 }
 
@@ -351,46 +335,6 @@ captionWidth() const
 
   return _boldFontMetrics.boundingRect(name).width();
 }
-
-
-//unsigned int
-//NodeGeometry::
-//validationHeight() const
-//{
-//QString msg = _dataModel->validationMessage();
-
-//return _boldFontMetrics.boundingRect(msg).height();
-//}
-
-
-//unsigned int
-//NodeGeometry::
-//validationWidth() const
-//{
-//QString msg = _dataModel->validationMessage();
-
-//return _boldFontMetrics.boundingRect(msg).width();
-//}
-
-
-//QPointF
-//NodeGeometry::
-//calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort, Node * targetNode,
-//PortIndex sourcePortIndex, PortType sourcePort, Node * sourceNode,
-//Node & newNode)
-//{
-////Calculating the nodes position in the scene. It'll be positioned half way
-////between the two ports that it "connects".  The first line calculates the
-////halfway point between the ports (node position + port position on the node
-////for both nodes averaged).  The second line offsets this coordinate with the
-////size of the new node, so that the new nodes center falls on the originally
-////calculated coordinate, instead of it's upper left corner.
-//auto converterNodePos = (sourceNode->nodeGraphicsObject().pos() + sourceNode->nodeGeometry().portScenePosition(sourcePortIndex, sourcePort) +
-//targetNode->nodeGraphicsObject().pos() + targetNode->nodeGeometry().portScenePosition(targetPortIndex, targetPort)) / 2.0f;
-//converterNodePos.setX(converterNodePos.x() - newNode.nodeGeometry().width() / 2.0f);
-//converterNodePos.setY(converterNodePos.y() - newNode.nodeGeometry().height() / 2.0f);
-//return converterNodePos;
-//}
 
 
 unsigned int

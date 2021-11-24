@@ -75,7 +75,6 @@ boundingRect() const
   auto points = pointsC1C2();
 
   QRectF basicRect = QRectF(_out, _in).normalized();
-
   QRectF c1c2Rect = QRectF(points.first, points.second).normalized();
 
   auto const &connectionStyle =
@@ -98,7 +97,8 @@ std::pair<QPointF, QPointF>
 ConnectionGeometry::
 pointsC1C2() const
 {
-  const double defaultOffset = 200;
+  const double defaultOffset = 2000;
+  //const double defaultOffset = 0;
 
   double xDistance = _in.x() - _out.x();
 

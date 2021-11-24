@@ -4,6 +4,7 @@
 
 #include <QtCore/QPointF>
 #include <QtCore/QRectF>
+#include <QtCore/qdebug.h>
 
 #include <iostream>
 

@@ -200,7 +200,7 @@ drawNormalLine(QPainter * painter,
     auto dataTypeIn = connection.dataType(PortType::In);
 
     gradientColor = (dataTypeOut.id != dataTypeIn.id);
-
+    
     normalColorOut  = connectionStyle.normalColor(dataTypeOut.id);
     normalColorIn   = connectionStyle.normalColor(dataTypeIn.id);
     selectedColor = normalColorOut.darker(200);
@@ -273,8 +273,33 @@ drawNormalLine(QPainter * painter,
 
     painter->setPen(p);
     painter->setBrush(Qt::NoBrush);
+    //qDebug() << "cubic" << cubic;
+    //painter->drawLines(cubic.)
+    //qDebug() << "move to:" << cubic.elementAt(0) << " curve to:" << cubic.elementAt(1) << " curve to data:" << cubic.elementAt(2) << " curve to data:" << cubic.elementAt(3);
+    //原曲线绘制函数
+    //painter->drawPath(cubic);
 
-    painter->drawPath(cubic);
+    //直线绘制方法
+    if (cubic.elementAt(3).x >= cubic.elementAt(0).x) {
+        painter->drawLine(cubic.elementAt(0), cubic.elementAt(1));
+        painter->drawLine(cubic.elementAt(1), cubic.elementAt(2));
+        painter->drawLine(cubic.elementAt(2), cubic.elementAt(3));
+    }
+    else {
+        QPointF tPoint1(cubic.elementAt(0).x + 20, cubic.elementAt(0).y);
+        QPointF tPoint2(tPoint1.x(), (cubic.elementAt(3).y - cubic.elementAt(0).y) / 2);
+
+        QPointF tPoint4(cubic.elementAt(3).x - 20, cubic.elementAt(3).y);
+        QPointF tPoint3(tPoint4.x(), (cubic.elementAt(3).y - cubic.elementAt(0).y) / 2);
+
+        painter->drawLine(cubic.elementAt(0), tPoint1);
+        painter->drawLine(tPoint1, tPoint2);
+        painter->drawLine(tPoint2, tPoint3);
+        painter->drawLine(tPoint3, tPoint4);
+        painter->drawLine(tPoint4, cubic.elementAt(3));
+        //qDebug() << "tPoint2:" << tPoint2 << " tPoint3:" << tPoint3;
+
+    }
   }
 }
 
@@ -308,6 +333,7 @@ paint(QPainter* painter,
   painter->setPen(connectionStyle.constructionColor());
   painter->setBrush(connectionStyle.constructionColor());
   double const pointRadius = pointDiameter / 2.0;
+
   painter->drawEllipse(source, pointRadius, pointRadius);
   painter->drawEllipse(sink, pointRadius, pointRadius);
 }

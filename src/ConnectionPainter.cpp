@@ -355,9 +355,9 @@ ConnectionPainter::
 paint(QPainter* painter,
       Connection const &connection)
 {
-  //drawHoveredOrSelected(painter, connection);
+  drawHoveredOrSelected(painter, connection);
 
-  //drawSketchLine(painter, connection);
+  drawSketchLine(painter, connection);
 
   drawNormalLine(painter, connection);
 

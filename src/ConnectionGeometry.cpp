@@ -97,7 +97,7 @@ std::pair<QPointF, QPointF>
 ConnectionGeometry::
 pointsC1C2() const
 {
-  const double defaultOffset = 2000;
+  const double defaultOffset = 99999;
   //const double defaultOffset = 0;
 
   double xDistance = _in.x() - _out.x();

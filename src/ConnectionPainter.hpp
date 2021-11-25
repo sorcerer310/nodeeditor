@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtGui/QPainter>
+#include "nodes/internal/Node.hpp"
 
 namespace QtNodes
 {

@@ -112,7 +112,7 @@ main(int argc, char *argv[])
                    scene, &FlowScene::load);
 
   mainWidget.setWindowTitle("Dataflow tools: simplest calculator");
-  mainWidget.resize(800, 600);
+  mainWidget.resize(1024, 768);
   mainWidget.showNormal();
 
   return app.exec();

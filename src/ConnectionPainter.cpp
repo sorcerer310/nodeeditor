@@ -278,7 +278,7 @@ drawNormalLine(QPainter * painter,
 
     painter->setPen(p);
     painter->setBrush(Qt::NoBrush);
-    qDebug() << "cubic" << cubic;
+    //qDebug() << "cubic" << cubic;
 
     //原曲线绘制函数
     //painter->drawPath(cubic);
@@ -302,7 +302,7 @@ drawNormalLine(QPainter * painter,
         //int outBottom = outTop + outHeight;
         int offset = 30;
         
-        qDebug() << connection.getNode(QtNodes::PortType::In)->nodeGraphicsObject().y();
+        //qDebug() << connection.getNode(QtNodes::PortType::In)->nodeGraphicsObject().y();
         
 
         //6个点依次为 输出点cubic.elementAt(0)、拐点tp1、拐点tp2、拐点tp3、拐点tp4、输入点cubic.elementAt(3)
@@ -343,7 +343,7 @@ drawNormalLine(QPainter * painter,
         painter->drawLine(tPoint2, tPoint3);
         painter->drawLine(tPoint3, tPoint4);
         painter->drawLine(tPoint4, cubic.elementAt(3));
-        qDebug() << "tPoint1:" << tPoint1 << " tPoint2:" << tPoint2 << " tPoint3:" << tPoint3 << " tPoint4:" << tPoint4;
+        //qDebug() << "tPoint1:" << tPoint1 << " tPoint2:" << tPoint2 << " tPoint3:" << tPoint3 << " tPoint4:" << tPoint4;
 
     }
   }

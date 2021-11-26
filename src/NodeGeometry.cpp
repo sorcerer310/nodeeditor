@@ -176,12 +176,15 @@ portScenePosition(PortIndex index,
       double x = 0.0 - nodeStyle.ConnectionPointDiameter;
 
       result = QPointF(x, totalHeight);
+
       break;
     }
 
     default:
       break;
   }
+
+
 
   return t.map(result);
 }

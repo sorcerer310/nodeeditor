@@ -22,5 +22,6 @@ public:
   static
   QPainterPath
   getPainterStroke(ConnectionGeometry const& geom);
+
 };
 }

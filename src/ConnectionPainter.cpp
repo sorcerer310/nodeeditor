@@ -29,10 +29,44 @@ cubicPath(ConnectionGeometry const& geom)
 
   // cubic spline
   QPainterPath cubic(source);
-
   cubic.cubicTo(c1c2.first, c1c2.second, sink);
 
-  return cubic;
+  QPainterPath line;
+  //通过cubic已有的数据转化为直线绘制
+  if (cubic.elementAt(3).x >= cubic.elementAt(0).x) {
+      line.moveTo(cubic.elementAt(0));
+      line.lineTo(cubic.elementAt(1));
+      line.lineTo(cubic.elementAt(2));
+      line.lineTo(cubic.elementAt(3));
+  }
+  ////当输入port在输出port左侧时
+  else {
+      int offset = 30;
+
+      //6个点依次为 输出点cubic.elementAt(0)、拐点tp1、拐点tp2、拐点tp3、拐点tp4、输入点cubic.elementAt(3)
+      QPointF tPoint1(cubic.elementAt(0).x + 20, cubic.elementAt(0).y);
+      QPointF tPoint4(cubic.elementAt(3).x - 20, cubic.elementAt(3).y);
+      QPointF tPoint2(tPoint1.x(), (cubic.elementAt(0).y - cubic.elementAt(3).y) / 2);
+      QPointF tPoint3(tPoint4.x(), (cubic.elementAt(0).y - cubic.elementAt(3).y) / 2);
+
+      if (tPoint1.y() >= tPoint4.y()) {
+          tPoint2.setY(tPoint1.y() - offset);
+          tPoint3.setY(tPoint2.y());
+      }
+      else {
+          tPoint2.setY(tPoint4.y() - offset);
+          tPoint3.setY(tPoint2.y());
+      }
+        
+      line.moveTo(cubic.elementAt(0));
+      line.lineTo(tPoint1);
+      line.lineTo(tPoint2);
+      line.lineTo(tPoint3);
+      line.lineTo(tPoint4);
+      line.lineTo(cubic.elementAt(3));
+  }
+
+  return line;
 }
 
 
@@ -127,6 +161,7 @@ drawSketchLine(QPainter * painter,
     auto cubic = cubicPath(geom);
     // cubic spline
     painter->drawPath(cubic);
+
   }
 }
 
@@ -281,74 +316,10 @@ drawNormalLine(QPainter * painter,
     //qDebug() << "cubic" << cubic;
 
     //原曲线绘制函数
-    //painter->drawPath(cubic);
+    painter->drawPath(cubic);
 
-    //直线绘制方法
-    //当输出port在输入port左侧
-    if (cubic.elementAt(3).x >= cubic.elementAt(0).x) {
-        painter->drawLine(cubic.elementAt(0), cubic.elementAt(1));
-        painter->drawLine(cubic.elementAt(1), cubic.elementAt(2));
-        painter->drawLine(cubic.elementAt(2), cubic.elementAt(3));
-    }
-    //当输入port在输出port左侧时
-    else {
-
-        ////获得输入节点的高度和输出节点的高度
-        int inHeight = connection.getNode(QtNodes::PortType::In)->nodeGeometry().height();
-        int outHeight = connection.getNode(QtNodes::PortType::Out)->nodeGeometry().height();
-        //int inTop = connection.getNode(QtNodes::PortType::In)->nodeGraphicsObject().y();
-        //int outTop = connection.getNode(QtNodes::PortType::Out)->nodeGraphicsObject().y();
-        //int inBottom = inTop + inHeight;
-        //int outBottom = outTop + outHeight;
-        int offset = 30;
-        
-        //qDebug() << connection.getNode(QtNodes::PortType::In)->nodeGraphicsObject().y();
-        
-
-        //6个点依次为 输出点cubic.elementAt(0)、拐点tp1、拐点tp2、拐点tp3、拐点tp4、输入点cubic.elementAt(3)
-        QPointF tPoint1(cubic.elementAt(0).x + 20, cubic.elementAt(0).y);
-        QPointF tPoint4(cubic.elementAt(3).x - 20, cubic.elementAt(3).y);
-        QPointF tPoint2(tPoint1.x(), (cubic.elementAt(0).y - cubic.elementAt(3).y) / 2);
-        QPointF tPoint3(tPoint4.x(), (cubic.elementAt(0).y - cubic.elementAt(3).y) / 2);
-                    
-        if (tPoint1.y() >= tPoint4.y()) {
-            //if (outTop >= inBottom) {
-                //tPoint2.setY(inTop - offset + (outTop - inBottom) / 2);
-                tPoint2.setY(tPoint1.y() - offset);
-                tPoint3.setY(tPoint2.y());
-            //}
-            //else {
-            //    tPoint2.setY(outTop - offset);
-            //    tPoint3.setY(tPoint2.y());
-            //}
-        }
-        else {
-
-            tPoint2.setY(tPoint4.y() - offset);
-            tPoint3.setY(tPoint2.y());
-        //    if (outBottom >= inTop) {
-        //        tPoint2.setY(inTop - (inTop - outBottom) / 2);
-        //        tPoint3.setY(tPoint2.y());
-        //    }
-        //    else {
-        //        tPoint2.setY(outTop + offset);
-        //        tPoint3.setY(tPoint2.y());
-        //    }
-        }
-
-
-
-        painter->drawLine(cubic.elementAt(0), tPoint1);
-        painter->drawLine(tPoint1, tPoint2);
-        painter->drawLine(tPoint2, tPoint3);
-        painter->drawLine(tPoint3, tPoint4);
-        painter->drawLine(tPoint4, cubic.elementAt(3));
-        //qDebug() << "tPoint1:" << tPoint1 << " tPoint2:" << tPoint2 << " tPoint3:" << tPoint3 << " tPoint4:" << tPoint4;
-
-    }
   }
 }
-
 
 void
 ConnectionPainter::

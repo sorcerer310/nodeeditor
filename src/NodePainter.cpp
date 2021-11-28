@@ -177,10 +177,20 @@ drawConnectionPoints(QPainter* painter,
       {
         painter->setBrush(nodeStyle.ConnectionPointColor);
       }
-
-      painter->drawEllipse(p,
-                           reducedDiameter * r,
-                           reducedDiameter * r);
+        //原圆形绘制方法
+//      painter->drawEllipse(p,
+//                           reducedDiameter * r,
+//                           reducedDiameter * r);
+      //三角形绘制方法
+      QPolygonF qpolygon;
+      if(portType==QtNodes::PortType::Out){
+          qpolygon << QPointF(p.x()+7,p.y()) << QPointF(p.x()-5,p.y()+7) << QPointF(p.x()-5,p.y()-7);
+          painter->drawPolygon(qpolygon);
+      }else if (portType == QtNodes::PortType::In){
+//          qpolygon << QPointF(p.x()-7,p.y()) << QPointF(p.x()+5,p.y()+7) << QPointF(p.x()+5,p.y()-7);
+          qpolygon << QPointF(p.x()+7,p.y()) << QPointF(p.x()-5,p.y()+7) << QPointF(p.x()-5,p.y()-7);
+          painter->drawPolygon(qpolygon);
+      }
     }
   };
 }

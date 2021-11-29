@@ -259,11 +259,8 @@ drawNormalLine(QPainter * painter,
 
 
   auto cubic = cubicPath(geom);
-  //调试代码
   if (gradientColor)
   {
-
-      //qDebug() << "gradient color";
     painter->setBrush(Qt::NoBrush);
 
     QColor c = normalColorOut; 
@@ -313,7 +310,6 @@ drawNormalLine(QPainter * painter,
 
     painter->setPen(p);
     painter->setBrush(Qt::NoBrush);
-    //qDebug() << "cubic" << cubic;
 
     //原曲线绘制函数
     painter->drawPath(cubic);
@@ -351,6 +347,6 @@ paint(QPainter* painter,
   painter->setBrush(connectionStyle.constructionColor());
   double const pointRadius = pointDiameter / 2.0;
 
-  painter->drawEllipse(source, pointRadius, pointRadius);
-  painter->drawEllipse(sink, pointRadius, pointRadius);
+  //painter->drawEllipse(source, pointRadius, pointRadius);
+  //painter->drawEllipse(sink, pointRadius, pointRadius);
 }

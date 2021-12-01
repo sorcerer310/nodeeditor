@@ -233,8 +233,8 @@ drawFilledConnectionPoints(QPainter * painter,
         }
 
         painter->drawEllipse(p,
-                             diameter * 0.4,
-                             diameter * 0.4);
+                             diameter * 0.01,
+                             diameter * 0.01);
       }
     }
   }

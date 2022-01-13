@@ -73,6 +73,8 @@ set(CPP_SOURCE_FILES
   src/NodeStyle.cpp
   src/Properties.cpp
   src/StyleCollection.cpp
+
+  src/AICCConnectionGeometry.hpp
 )
 
 # If we want to give the option to build a static library,
@@ -106,7 +108,7 @@ target_compile_definitions(nodes
     NODE_EDITOR_SHARED
   PRIVATE
     NODE_EDITOR_EXPORTS
-    #NODE_DEBUG_DRAWING
+    NODE_DEBUG_DRAWING
     QT_NO_KEYWORDS
 )
 
@@ -156,7 +158,7 @@ endif()
 ##
 
 if(BUILD_TESTING)
-  add_subdirectory(test)
+#  add_subdirectory(test)
 endif()
 
 ###############

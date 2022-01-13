@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "PortType.hpp"
 
@@ -15,7 +15,7 @@ class AICCConnectionGeometry
 {
 public:
     AICCConnectionGeometry();
-    //start is output point,end is input point
+    ///start 为输出点坐标，end为输入点坐标，坐标系为scene坐标系
     std::list<QPointF> connectionPoints(QPointF start,QPointF end){
 
     }

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+﻿cmake_minimum_required(VERSION 3.2)
 # version 3.4 is required as other do not work with C++14 and clang
 
 project(NodeEditor CXX)
@@ -74,7 +74,6 @@ set(CPP_SOURCE_FILES
   src/Properties.cpp
   src/StyleCollection.cpp
 
-  src/AICCConnectionGeometry.hpp
 )
 
 # If we want to give the option to build a static library,
@@ -108,7 +107,7 @@ target_compile_definitions(nodes
     NODE_EDITOR_SHARED
   PRIVATE
     NODE_EDITOR_EXPORTS
-    NODE_DEBUG_DRAWING
+#    NODE_DEBUG_DRAWING
     QT_NO_KEYWORDS
 )
 

@@ -1,4 +1,4 @@
-#include "Connection.hpp"
+﻿#include "Connection.hpp"
 
 #include <cmath>
 #include <utility>
@@ -296,9 +296,8 @@ connectionState() const
 }
 
 
-ConnectionGeometry&
-Connection::
-connectionGeometry()
+ConnectionGeometry &
+Connection::connectionGeometry()
 {
   return _connectionGeometry;
 }

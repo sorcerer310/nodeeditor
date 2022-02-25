@@ -1,4 +1,4 @@
-#include "NodeGeometry.hpp"
+﻿#include "NodeGeometry.hpp"
 
 #include <iostream>
 #include <cmath>
@@ -176,7 +176,6 @@ portScenePosition(PortIndex index,
       double x = 0.0 - nodeStyle.ConnectionPointDiameter;
 
       result = QPointF(x, totalHeight);
-
       break;
     }
 

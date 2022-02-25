@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QtCore/QUuid>
 #include <QtWidgets/QGraphicsScene>
@@ -51,6 +51,15 @@ public:
                    Node& nodeOut,
                    PortIndex portIndexOut,
                    TypeConverter const & converter = TypeConverter{});
+
+  std::shared_ptr<Connection>
+  createConnection(Node& nodeIn,
+                   PortIndex portIndexIn,
+                   Node& nodeOut,
+                   PortIndex portIndexOut,
+                   QList<QPointF> turningPoints,
+                   TypeConverter const & converter = TypeConverter{});
+
 
   std::shared_ptr<Connection> restoreConnection(QJsonObject const &connectionJson);
 

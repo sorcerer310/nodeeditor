@@ -39,7 +39,6 @@ Connection(PortType portType,
   , _connectionState()
 {
   setNodeToPort(node, portType, portIndex);
-
   setRequiredPort(oppositePort(portType));
 }
 
@@ -60,6 +59,7 @@ Connection(Node& nodeIn,
 {
   setNodeToPort(nodeIn, PortType::In, portIndexIn);
   setNodeToPort(nodeOut, PortType::Out, portIndexOut);
+
 }
 
 
@@ -98,6 +98,20 @@ save() const
 
     connectionJson["out_id"] = _outNode->id().toString();
     connectionJson["out_index"] = _outPortIndex;
+
+    //增加中间节点的记录,记录形式为数组，当输出在输入左侧为2个元素；当输出在输入右侧为4个元素
+    QJsonArray turningPointsJsonArray;
+    QList<QPointF> points = this->_connectionGeometry.getPoints();
+    for(int i=0;i<points.count();i++){
+        QJsonObject jop;
+           //此处保存的坐标是相对于输出点为0，0坐标
+           jop.insert("x",QJsonValue::fromVariant(points.at(i).x()));
+           jop.insert("y",QJsonValue::fromVariant(points.at(i).y()));
+           turningPointsJsonArray.append(jop);
+
+    }
+    connectionJson["turning_points"] = turningPointsJsonArray;
+    //增加中间节点的记录,记录形式为数组，当输出在输入左侧为2个元素；当输出在输入右侧为4个元素
 
     if (_converter)
     {

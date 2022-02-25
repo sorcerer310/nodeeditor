@@ -30,11 +30,10 @@ cubicPath(ConnectionGeometry geom)
     double xDistance = source.x() -sink.x();
     //  auto c1c2 = geom.pointsC1C2();
 
-//    geom.connectionPoints();
     QList<QPointF> cp = geom.getPoints();
     QPainterPath line;
-    line.moveTo(source);
 
+    line.moveTo(source);
     line.lineTo(cp[0]);
     line.lineTo(cp[1]);
     if(xDistance>0){
@@ -44,46 +43,9 @@ cubicPath(ConnectionGeometry geom)
 
     line.lineTo(sink);
 
-    /*  原画直线方法
-  // cubic spline
-  QPainterPath cubic(source);
-  cubic.cubicTo(c1c2.first, c1c2.second, sink);
-
-  QPainterPath line;
-  //通过cubic已有的数据转化为直线绘制
-  if (cubic.elementAt(3).x >= cubic.elementAt(0).x) {
-      line.moveTo(cubic.elementAt(0));
-      line.lineTo(cubic.elementAt(1));
-      line.lineTo(cubic.elementAt(2));
-      line.lineTo(cubic.elementAt(3));
-  }
-  ////当输入port在输出port左侧时
-  else {
-      int offset = 30;
-
-      //6个点依次为 输出点cubic.elementAt(0)、拐点tp1、拐点tp2、拐点tp3、拐点tp4、输入点cubic.elementAt(3)
-      QPointF tPoint1(cubic.elementAt(0).x + 20, cubic.elementAt(0).y);
-      QPointF tPoint4(cubic.elementAt(3).x - 20, cubic.elementAt(3).y);
-      QPointF tPoint2(tPoint1.x(), (cubic.elementAt(0).y - cubic.elementAt(3).y) / 2);
-      QPointF tPoint3(tPoint4.x(), (cubic.elementAt(0).y - cubic.elementAt(3).y) / 2);
-
-      if (tPoint1.y() >= tPoint4.y()) {
-          tPoint2.setY(tPoint1.y() - offset);
-          tPoint3.setY(tPoint2.y());
-      }
-      else {
-          tPoint2.setY(tPoint4.y() - offset);
-          tPoint3.setY(tPoint2.y());
-      }
-
-      line.moveTo(cubic.elementAt(0));
-      line.lineTo(tPoint1);
-      line.lineTo(tPoint2);
-      line.lineTo(tPoint3);
-      line.lineTo(tPoint4);
-      line.lineTo(cubic.elementAt(3));
-  }
-  */
+//    geom.setSelected(true);
+//    geom.setSelected(false);
+//    qDebug() << "ConnectionPainter:" << cp;
 
     return line;
 }
@@ -269,7 +231,7 @@ drawNormalLine(QPainter * painter,
         auto dataTypeOut = connection.dataType(PortType::Out);
         auto dataTypeIn = connection.dataType(PortType::In);
 
-        gradientColor = (dataTypeOut.id != dataTypeIn.id);
+//        gradientColor = (dataTypeOut.id != dataTypeIn.id);
 
         normalColorOut  = connectionStyle.normalColor(dataTypeOut.id);
         normalColorIn   = connectionStyle.normalColor(dataTypeIn.id);
@@ -326,9 +288,7 @@ drawNormalLine(QPainter * painter,
             QIcon icon(":convert.png");
 
             QPixmap pixmap = icon.pixmap(QSize(22, 22));
-            painter->drawPixmap(cubic.pointAtPercent(0.50) - QPoint(pixmap.width()/2,
-                                                                    pixmap.height()/2),
-                                pixmap);
+//            painter->drawPixmap(cubic.pointAtPercent(0.50) - QPoint(pixmap.width()/2,pixmap.height()/2),pixmap);
 
         }
     }
@@ -345,8 +305,9 @@ drawNormalLine(QPainter * painter,
         painter->setBrush(Qt::NoBrush);
 
         //原曲线绘制函数
+//        qDebug() << "=======ConnectionPainter else:========" << cubic;
+//        painter->drawPath();
         painter->drawPath(cubic);
-
     }
 }
 

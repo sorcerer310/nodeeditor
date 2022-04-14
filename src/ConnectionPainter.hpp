@@ -2,6 +2,7 @@
 
 #include <QtGui/QPainter>
 #include "nodes/internal/Node.hpp"
+#include <QThread>
 
 
 namespace QtNodes

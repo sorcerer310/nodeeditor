@@ -134,10 +134,7 @@ pointsC1C2() const
 }
 
 ///当线段未被选中时执行该函数
-//QList<QPointF> ConnectionGeometry::connectionPoints(std::pair<double,double> portInDistancePair,std::pair<double,double> portOutDistancePair){
-//QList<QPointF> ConnectionGeometry::connectionPoints(){
 QList<QPointF> ConnectionGeometry::connectionPoints(){
-
     if(_selected) return _points;
     double xDistance = _out.x() - _in.x();
     //当输出点在输入点右侧（2拐点情况)
@@ -146,25 +143,14 @@ QList<QPointF> ConnectionGeometry::connectionPoints(){
 
         _points[0] = QPointF(_out.x()+horizontalOffset/2,_out.y());
         _points[1] = QPointF(_in.x()-horizontalOffset/2,_in.y());
+        _points[2] = QPointF(0,0);
+        _points[3] = QPointF(0,0);
     }
     //当输出点在输入点左侧（4拐点情况）
     else{
         double horizontalOffset = 20;
 
-
         _points[0] = QPointF(_out.x()+horizontalOffset,_out.y());
-        //        //out port 在下方的情况
-        //        if(_out.y() >=_in.y()){
-        //            double yDistance = _in.y()- _out.y() - portOutDistancePair.first - portInDistancePair.second;
-        //            _points[1] = QPointF(_out.x()+horizontalOffset,_out.y() - portOutDistancePair.first - yDistance/2);
-        //            _points[2] = QPointF(_in.x()-horizontalOffset,_out.y() - portOutDistancePair.first - yDistance/2);
-        //        }
-        //        //out port 在上方的情况
-        //        else{
-        //            double yDistance =  _out.y()+_in.y()-portOutDistancePair.second - portInDistancePair.first ;
-        //            _points[1] = QPointF(_out.x()+horizontalOffset,_out.y()+portOutDistancePair.second +yDistance/2);
-        //            _points[2] = QPointF(_in.x()-horizontalOffset,_out.y()+portOutDistancePair.second+yDistance/2);
-        //        }
 
         double yDistance = _in.y() - _out.y();
         _points[1] = QPointF(_out.x()+horizontalOffset,_out.y() +yDistance/2);
@@ -184,9 +170,10 @@ QList<QPointF> ConnectionGeometry::connectionPoints(QPointF pos,std::pair<double
         if(xDistance<=0){
 
             double x = pos.x();
-            if(pos.x()<=20) x = _out.x()+20;
+            if(pos.x()-_out.x()<=20) x = _out.x()+20;
             else if(pos.x() >= _in.x()-20) x = _in.x()-20;
 
+//            qDebug() << "pos.x:" << pos.x() << "_out.x:" << _out.x() << "_in.x:" << _in.x();
             _points[0].setX(x);
             _points[0].setY(_out.y());
             _points[1].setX( x);
@@ -194,8 +181,6 @@ QList<QPointF> ConnectionGeometry::connectionPoints(QPointF pos,std::pair<double
 
         }else if(xDistance>0){
             double horizontalOffset = 20;
-
-            //            qDebug() << portInDistancePair << portOutDistancePair;
 
             double y = pos.y();
             //分两种情况：
@@ -223,17 +208,13 @@ QList<QPointF> ConnectionGeometry::connectionPoints(QPointF pos,std::pair<double
     return _points;
 }
 
-QList<QPointF> ConnectionGeometry::getPoints(){
-    return _points;
-}
-
 std::pair<double,double> ConnectionGeometry::getOutPort2NodeSizeDistance(){
 
-//    _connection.connectionGeometry()
-//    Node *nout = _connection->getNode(PortType::Out);
-//    QPointF posout = nout->nodeGeometry().portScenePosition( _connection.getPortIndex(PortType::Out),PortType::Out);
-//    double hout = nout->nodeGeometry().height();
-//    std::pair<double,double> out_distance_pair = std::make_pair(posout.y(),hout-posout.y());
+    //    _connection.connectionGeometry()
+    //    Node *nout = _connection->getNode(PortType::Out);
+    //    QPointF posout = nout->nodeGeometry().portScenePosition( _connection.getPortIndex(PortType::Out),PortType::Out);
+    //    double hout = nout->nodeGeometry().height();
+    //    std::pair<double,double> out_distance_pair = std::make_pair(posout.y(),hout-posout.y());
     return std::make_pair(0,0);
 }
 

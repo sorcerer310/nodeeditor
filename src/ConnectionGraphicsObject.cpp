@@ -41,6 +41,7 @@ ConnectionGraphicsObject(FlowScene &scene,
     //   addGraphicsEffect();
 
     setZValue(-1.0);
+
 }
 
 
@@ -116,8 +117,8 @@ void ConnectionGraphicsObject::move()
 
             QPointF connectionPos = sceneTransform.inverted().map(scenePos);
 
-            _connection.connectionGeometry().setEndPoint(portType,
-                                                         connectionPos);
+            _connection.connectionGeometry().setEndPoint(portType,connectionPos);
+
             //测试代码,当node移动时重新计算绘制连接线
             //计算out port与in port位置与node上下沿的距离
 //            Node *nout = _connection.getNode(PortType::Out);
@@ -155,10 +156,10 @@ paint(QPainter* painter,
       QStyleOptionGraphicsItem const* option,
       QWidget*)
 {
-    painter->setClipRect(option->exposedRect);
 
-    ConnectionPainter::paint(painter,
-                             _connection);
+    ///覆盖过期线段
+    painter->setClipRect(option->exposedRect);
+    ConnectionPainter::paint(painter,_connection);
 }
 
 
@@ -265,7 +266,6 @@ ConnectionGraphicsObject::
 hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
     _connection.connectionGeometry().setHovered(true);
-
     update();
     _scene.connectionHovered(connection(), event->screenPos());
     event->accept();

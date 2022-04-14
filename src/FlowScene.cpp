@@ -52,6 +52,7 @@ FlowScene(std::shared_ptr<DataModelRegistry> registry,
   connect(this, &FlowScene::connectionDeleted, this, &FlowScene::sendConnectionDeletedToNodes);
 }
 
+
 FlowScene::
 FlowScene(QObject * parent)
   : FlowScene(std::make_shared<DataModelRegistry>(),
@@ -241,6 +242,7 @@ void
 FlowScene::
 removeNode(Node& node)
 {
+
   // call signal
   nodeDeleted(node);
 
@@ -257,6 +259,9 @@ removeNode(Node& node)
   }
 
   _nodes.erase(node.id());
+
+  // after delete signal
+  afterNodeDeleted();
 }
 
 
@@ -520,7 +525,10 @@ load()
   QByteArray wholeFile = file.readAll();
 
   loadFromMemory(wholeFile);
+
+
 }
+
 
 
 QByteArray
@@ -578,6 +586,8 @@ loadFromMemory(const QByteArray& data)
   {
     restoreConnection(connection.toObject());
   }
+
+  sceneLoadFromMemoryCompleted(true);
 }
 
 

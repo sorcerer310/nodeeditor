@@ -305,6 +305,9 @@ removeNode(Node& node)
     }
 
     _nodes.erase(node.id());
+
+    // after delete signal
+    afterNodeDeleted();
 }
 
 
@@ -625,6 +628,8 @@ loadFromMemory(const QByteArray& data)
     {
         restoreConnection(connection.toObject());
     }
+
+    sceneLoadFromMemoryCompleted(true);
 }
 
 

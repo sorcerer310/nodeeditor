@@ -125,6 +125,7 @@ Q_SIGNALS:
   void nodePlaced(Node &n);
 
   void nodeDeleted(Node &n);
+  void afterNodeDeleted();
 
   void connectionCreated(Connection const &c);
   void connectionDeleted(Connection const &c);
@@ -142,6 +143,8 @@ Q_SIGNALS:
   void nodeHoverLeft(Node& n);
 
   void nodeContextMenu(Node& n, const QPointF& pos);
+
+  void sceneLoadFromMemoryCompleted(bool isCompleted);
 
 private:
 

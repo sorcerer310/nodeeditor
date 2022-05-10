@@ -51,6 +51,8 @@ cubicPath(ConnectionGeometry geom)
 }
 
 
+
+
 QPainterPath
 ConnectionPainter::
 getPainterStroke(ConnectionGeometry const& geom)
@@ -151,7 +153,7 @@ drawSketchLine(QPainter * painter,
 //        std::pair<double,double> in_distance_pair = std::make_pair(posin.y(),hin-posin.y());
 
 //        geom.connectionPoints(in_distance_pair,out_distance_pair);
-        geom.connectionPoints();
+        QList<QPointF> lp = geom.connectionPoints();
         auto cubic = cubicPath(geom);
 
         // cubic spline
@@ -254,6 +256,8 @@ drawNormalLine(QPainter * painter,
 
 
     auto cubic = cubicPath(geom);
+    qDebug() << "----------------cubic:" << cubic;
+    //当画面上有两条线时，第一条线会被重置，第二条线会正确表示
     if (gradientColor)
     {
         painter->setBrush(Qt::NoBrush);
@@ -316,6 +320,8 @@ ConnectionPainter::
 paint(QPainter* painter,
       Connection const &connection)
 {
+//    if(!beginDraw) return;
+
     //选中线
     drawHoveredOrSelected(painter, connection);
     //拖动虚线

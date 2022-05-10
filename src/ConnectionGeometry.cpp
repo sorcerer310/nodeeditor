@@ -113,7 +113,7 @@ pointsC1C2() const
 
     if (xDistance <= 0)
     {
-        double yDistance = _in.y() - _out.y() + 20;
+        double yDistance = _in.y() - _out.y() + TURNING_LINE_PADDING;
 
         double vector = yDistance < 0 ? -1.0 : 1.0;
 
@@ -123,6 +123,8 @@ pointsC1C2() const
     }
 
     horizontalOffset *= ratioX;
+
+    //    qDebug() << "QPointF:" << _out.x() << ":" << _out.y();
 
     QPointF c1(_out.x() + horizontalOffset,
                _out.y() + verticalOffset);
@@ -140,23 +142,35 @@ QList<QPointF> ConnectionGeometry::connectionPoints(){
     //当输出点在输入点右侧（2拐点情况)
     if(xDistance<=0){
         double horizontalOffset = std::abs(xDistance);
+        //        qDebug() << "points:" << _points[0];
+        //如果输出端点x小于当前折线点x坐标-20 或 输入端点x大于当前折线点x坐标+20 保持折线原来的x坐标
 
-        _points[0] = QPointF(_out.x()+horizontalOffset/2,_out.y());
-        _points[1] = QPointF(_in.x()-horizontalOffset/2,_in.y());
+        if(_in.x()<=_points[0].x()+TURNING_LINE_PADDING){
+            _points[0] = QPointF(_in.x()-TURNING_LINE_PADDING,_out.y());
+            _points[1] = QPointF(_in.x()-TURNING_LINE_PADDING,_in.y());
+        }else if(_out.x() >= _points[0].x()-TURNING_LINE_PADDING){
+            _points[0] = QPointF(_out.x()+TURNING_LINE_PADDING,_out.y());
+            _points[1] = QPointF(_out.x()+TURNING_LINE_PADDING,_in.y());
+        }else{
+            _points[0] = QPointF(_points[0].x(),_out.y());
+            _points[1] = QPointF(_points[1].x(),_in.y());
+        }
+
         _points[2] = QPointF(0,0);
         _points[3] = QPointF(0,0);
     }
     //当输出点在输入点左侧（4拐点情况）
     else{
-        double horizontalOffset = 20;
+        double horizontalOffset = TURNING_LINE_PADDING;
 
         _points[0] = QPointF(_out.x()+horizontalOffset,_out.y());
-
         double yDistance = _in.y() - _out.y();
         _points[1] = QPointF(_out.x()+horizontalOffset,_out.y() +yDistance/2);
         _points[2] = QPointF(_in.x()-horizontalOffset,_in.y()-yDistance/2);
         _points[3] = QPointF(_in.x()-horizontalOffset,_in.y());
     }
+    //    qDebug() << _points;
+
     return _points;
 }
 
@@ -173,7 +187,7 @@ QList<QPointF> ConnectionGeometry::connectionPoints(QPointF pos,std::pair<double
             if(pos.x()-_out.x()<=20) x = _out.x()+20;
             else if(pos.x() >= _in.x()-20) x = _in.x()-20;
 
-//            qDebug() << "pos.x:" << pos.x() << "_out.x:" << _out.x() << "_in.x:" << _in.x();
+            //            qDebug() << "pos.x:" << pos.x() << "_out.x:" << _out.x() << "_in.x:" << _in.x();
             _points[0].setX(x);
             _points[0].setY(_out.y());
             _points[1].setX( x);
@@ -221,21 +235,4 @@ std::pair<double,double> ConnectionGeometry::getOutPort2NodeSizeDistance(){
 std::pair<double,double> ConnectionGeometry::getInPort2NodeSizeDistance(){
     return std::make_pair(0,0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

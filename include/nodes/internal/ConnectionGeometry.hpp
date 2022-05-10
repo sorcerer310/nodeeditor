@@ -66,6 +66,9 @@ public:
   void setPortInDistancePair(std::pair<double,double> pair){_portInDistancePair = pair;}
   void setPortOutDistancePair(std::pair<double,double> pair){_portOutDistancePair = pair;}
 
+public:
+  int TURNING_LINE_PADDING = 20;
+
 private:
   // local object coordinates
   QPointF _in;

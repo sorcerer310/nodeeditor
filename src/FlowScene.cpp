@@ -145,8 +145,9 @@ createConnection(Node& nodeIn,PortIndex portIndexIn,Node& nodeOut,PortIndex port
 
     //fcmodify：后增加的设置拐点的函数
     connection->connectionGeometry().setPoints(turningPoints);
-    connection->connectionGeometry().connectionPoints();
-
+    //不加这句，加了这句会导致拐点坐标重新计算文件中保存不下来连接线的移动坐标
+//    connection->connectionGeometry().connectionPoints();
+//    connection->connectionGeometry().setPoints(turningPoints);
     return connection;
 }
 
@@ -171,16 +172,21 @@ restoreConnection(QJsonObject const &connectionJson)
 
         for(int i=0;i<parray.count();i++){
             QJsonObject p = parray.at(i).toObject();
-            double x = nodeOut->nodeGraphicsObject().x()+
-                    nodeOut->nodeGeometry().portScenePosition(portIndexOut,PortType::Out).x()
-                    +p.value("x").toDouble();
-            double y = nodeOut->nodeGraphicsObject().y()+
-                    nodeOut->nodeGeometry().portScenePosition(portIndexOut,PortType::Out).y()+
-                    p.value("y").toDouble();
+            //此处不需要增加，增加了会导致连线错乱
+//            double x = nodeOut->nodeGraphicsObject().x()+
+//                    nodeOut->nodeGeometry().portScenePosition(portIndexOut,PortType::Out).x()
+//                    +p.value("x").toDouble();
+//            double y = nodeOut->nodeGraphicsObject().y()+
+//                    nodeOut->nodeGeometry().portScenePosition(portIndexOut,PortType::Out).y()+
+//                    p.value("y").toDouble();
+//               turningPoints.append(QPointF(x,y));
 
-//            qDebug()<< "graphicsObject().y():"<< nodeOut->nodeGraphicsObject().y();
+            turningPoints.append(QPointF(p.value("x").toDouble(),p.value("y").toDouble()));
+
+               //            qDebug()<< "graphicsObject().y():"<< nodeOut->nodeGraphicsObject().y();
 //            qDebug() <<"portScenePosition:" << nodeOut->nodeGeometry().portScenePosition(portIndexOut,PortType::Out).y();
-            turningPoints.append(QPointF(x,y));
+
+
         }
 
     }else {
@@ -633,7 +639,9 @@ loadFromMemory(const QByteArray& data)
     for (QJsonValueRef connection : connectionJsonArray)
     {
         restoreConnection(connection.toObject());
+
     }
+
 
     sceneLoadFromMemoryCompleted(true);
 }

@@ -255,7 +255,13 @@ drawModelName(QPainter * painter,
   if (!model->captionVisible())
     return;
 
+
   QString const &name = model->caption();
+
+//  qDebug() << "draw model caption:------------------" << name << endl;
+//  if(model->name()=="op::float_mul"){
+//      qDebug() << model->captionVisible() << "|" << model->caption() << " name:" << name;
+//  }
 
   QFont f = painter->font();
 

@@ -120,19 +120,6 @@ void ConnectionGraphicsObject::move()
             _connection.connectionGeometry().setEndPoint(portType,connectionPos);
 
             //测试代码,当node移动时重新计算绘制连接线
-            //计算out port与in port位置与node上下沿的距离
-//            Node *nout = _connection.getNode(PortType::Out);
-//            QPointF posout = nout->nodeGeometry().portScenePosition( _connection.getPortIndex(PortType::Out),PortType::Out);
-//            double hout = nout->nodeGeometry().height();
-//            std::pair<double,double> out_distance_pair = std::make_pair(posout.y(),hout-posout.y());
-
-//            Node *nin = _connection.getNode(PortType::In);
-//            QPointF posin = nin->nodeGeometry().portScenePosition(_connection.getPortIndex(PortType::In),PortType::In);
-//            double hin = nin->nodeGeometry().height();
-//            std::pair<double,double> in_distance_pair = std::make_pair(posin.y(),hin-posin.y());
-//            _connection.connectionGeometry().connectionPoints(in_distance_pair,out_distance_pair);
-//            _connection.connectionGeometry().setPortInDistancePair(in_distance_pair);
-//            _connection.connectionGeometry().setPortOutDistancePair(out_distance_pair);
                _connection.connectionGeometry().connectionPoints();
             //测试代码
             _connection.getConnectionGraphicsObject().setGeometryChanged();

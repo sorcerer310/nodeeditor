@@ -104,7 +104,7 @@ save() const
     QList<QPointF> points = this->_connectionGeometry.getPoints();
     for(int i=0;i<points.count();i++){
         QJsonObject jop;
-            qDebug() << "points.at(i): i=" << i << ";x=" << points.at(i).x() << ";y=" << points.at(i).y();
+//            qDebug() << "points.at(i): i=" << i << ";x=" << points.at(i).x() << ";y=" << points.at(i).y();
            //此处保存的坐标是相对于输出点为0，0坐标
            jop.insert("x",QJsonValue::fromVariant(points.at(i).x()));
            jop.insert("y",QJsonValue::fromVariant(points.at(i).y()));

@@ -256,7 +256,7 @@ drawNormalLine(QPainter * painter,
 
 
     auto cubic = cubicPath(geom);
-    qDebug() << "----------------cubic:" << cubic;
+//    qDebug() << "----------------cubic:" << cubic;
     //当画面上有两条线时，第一条线会被重置，第二条线会正确表示
     if (gradientColor)
     {

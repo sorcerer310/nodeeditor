@@ -40,12 +40,12 @@ public:
   std::pair<double,double> getOutPort2NodeSizeDistance();
   std::pair<double,double> getInPort2NodeSizeDistance();
 
-  QList<QPointF> connectionPoints();
+  QList<QPointF> connectionPoints(const int conIndex);
+//  QList<QPointF> connectionPoints();
 //  QList<QPointF> connectionPoints(std::pair<double,double> portInDistancePair,std::pair<double,double> portOutDistancePair);
   QList<QPointF> connectionPoints(QPointF pos,std::pair<double,double> portInDistancePair,std::pair<double,double> portOutDistancePair);
   QList<QPointF> getPoints() const {return _points;}
-  void setPoints(QList<QPointF> p)  {_points = p;}
-//  QList<QPointF>
+  void setPoints(QList<QPointF> p) {_points = p;}
 
   QPointF
   source() const { return _out; }
@@ -74,6 +74,8 @@ private:
   QPointF _in;
   QPointF _out;
   QList<QPointF> _points;
+  int _portTypeOutIndex = -1;
+  int _portTypeOutCount = 0;
 
   std::pair<double,double> _portInDistancePair;
   std::pair<double,double> _portOutDistancePair;

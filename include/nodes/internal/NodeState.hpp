@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include <QtCore/QUuid>
-
+#include <QPointF>
 #include "Export.hpp"
 
 #include "PortType.hpp"
@@ -13,7 +13,6 @@
 
 namespace QtNodes
 {
-
 class Connection;
 class NodeDataModel;
 
@@ -83,8 +82,13 @@ public:
   bool
   resizing() const;
 
-private:
+  void
+  layoutConnections(Connection &con, const QPointF &outp,const QPointF &inp);
 
+  int
+  connectionIndex(Connection &con);
+
+private:
   std::vector<ConnectionPtrSet> _inConnections;
   std::vector<ConnectionPtrSet> _outConnections;
 

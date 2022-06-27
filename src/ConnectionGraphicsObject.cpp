@@ -120,7 +120,9 @@ void ConnectionGraphicsObject::move()
             _connection.connectionGeometry().setEndPoint(portType,connectionPos);
 
             //测试代码,当node移动时重新计算绘制连接线
-               _connection.connectionGeometry().connectionPoints();
+//            node->nodeState().layoutConnections(_connection,_connection.connectionGeometry().source(),_connection.connectionGeometry().sink());
+            _connection.connectionGeometry().connectionPoints(node->nodeState().connectionIndex(_connection));
+//            _connection.connectionGeometry().connectionPoints();
             //测试代码
             _connection.getConnectionGraphicsObject().setGeometryChanged();
             _connection.getConnectionGraphicsObject().update();
@@ -239,6 +241,9 @@ mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     if (node && interaction.tryConnect())
     {
         node->resetReactionToConnection();
+        QPointF source = _connection.connectionGeometry().source();
+        QPointF sink = _connection.connectionGeometry().sink();
+        node->nodeState().layoutConnections(_connection,source,sink);
     }
 
     if (_connection.connectionState().requiresPort())

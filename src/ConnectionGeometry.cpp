@@ -120,6 +120,7 @@ pointsC1C2() const
         verticalOffset = qMin(defaultOffset, std::abs(yDistance)) * vector;
 
         ratioX = 1.0;
+
     }
 
     horizontalOffset *= ratioX;
@@ -132,44 +133,54 @@ pointsC1C2() const
     QPointF c2(_in.x() - horizontalOffset,
                _in.y() - verticalOffset);
 
-    return std::make_pair(c1, c2);
+    //控制显示矩形的大小
+    if(c1.x()<=_points.at(0).x()+TURNING_LINE_PADDING)
+        c1.setX(_points.at(0).x()+TURNING_LINE_PADDING);
+    if(c2.x()>=_points.at(3).x()-TURNING_LINE_PADDING)
+        c2.setX(_points.at(3).x()-TURNING_LINE_PADDING);
+
+    return std::make_pair(c1,c2);
+
 }
 
 ///当线段未被选中时执行该函数
-QList<QPointF> ConnectionGeometry::connectionPoints(){
+QList<QPointF> ConnectionGeometry::connectionPoints(const int conIndex){
+//    QList<QPointF> ConnectionGeometry::connectionPoints(){
     if(_selected) return _points;
     double xDistance = _out.x() - _in.x();
+
+    int splitSpace = TURNING_LINE_PADDING*conIndex;
     //当输出点在输入点右侧（2拐点情况)
     if(xDistance<=0){
-        double horizontalOffset = std::abs(xDistance);
-        //        qDebug() << "points:" << _points[0];
+        if(abs(_out.x()-_in.x())<=splitSpace)
+            splitSpace = abs(_out.x() - _in.x());
         //如果输出端点x小于当前折线点x坐标-20 或 输入端点x大于当前折线点x坐标+20 保持折线原来的x坐标
-
-        if(_in.x()<=_points[0].x()+TURNING_LINE_PADDING){
-            _points[0] = QPointF(_in.x()-TURNING_LINE_PADDING,_out.y());
-            _points[1] = QPointF(_in.x()-TURNING_LINE_PADDING,_in.y());
-        }else if(_out.x() >= _points[0].x()-TURNING_LINE_PADDING){
-            _points[0] = QPointF(_out.x()+TURNING_LINE_PADDING,_out.y());
-            _points[1] = QPointF(_out.x()+TURNING_LINE_PADDING,_in.y());
+//        if(_in.x()<=_points[0].x()+splitSpace && _in.x() > _out.x() +splitSpace){
+            if(_in.x()<=_points[0].x()+splitSpace ){
+            _points[0] = QPointF(_in.x()-splitSpace,_out.y());
+            _points[1] = QPointF(_in.x()-splitSpace,_in.y());
+//        }else if(_out.x() >= _points[0].x()-splitSpace && _out.x()){
+        }else if(_out.x() >= _points[0].x()-splitSpace ){
+            _points[0] = QPointF(_out.x()+splitSpace,_out.y());
+            _points[1] = QPointF(_out.x()+splitSpace,_in.y());
         }else{
             _points[0] = QPointF(_points[0].x(),_out.y());
             _points[1] = QPointF(_points[1].x(),_in.y());
         }
-
         _points[2] = QPointF(0,0);
         _points[3] = QPointF(0,0);
     }
     //当输出点在输入点左侧（4拐点情况）
+    //TODO 下一步处理4拐点拖动时的问题
     else{
-        double horizontalOffset = TURNING_LINE_PADDING;
-
-        _points[0] = QPointF(_out.x()+horizontalOffset,_out.y());
+        if(abs(_in.x() - _out.x()) <= splitSpace)
+            splitSpace = abs(_in.x() - _out.x());
+        _points[0] = QPointF(_out.x()+splitSpace,_out.y());
         double yDistance = _in.y() - _out.y();
-        _points[1] = QPointF(_out.x()+horizontalOffset,_out.y() +yDistance/2);
-        _points[2] = QPointF(_in.x()-horizontalOffset,_in.y()-yDistance/2);
-        _points[3] = QPointF(_in.x()-horizontalOffset,_in.y());
+        _points[1] = QPointF(_out.x()+splitSpace,_out.y() +yDistance/2);
+        _points[2] = QPointF(_in.x()-splitSpace,_in.y()-yDistance/2);
+        _points[3] = QPointF(_in.x()-splitSpace,_in.y());
     }
-    //    qDebug() << _points;
 
     return _points;
 }

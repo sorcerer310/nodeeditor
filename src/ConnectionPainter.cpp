@@ -75,6 +75,7 @@ getPainterStroke(ConnectionGeometry const& geom)
     return stroker.createStroke(result);
 }
 
+//#define NODE_DEBUG_DRAWING
 
 #ifdef NODE_DEBUG_DRAWING
 static
@@ -153,7 +154,7 @@ drawSketchLine(QPainter * painter,
 //        std::pair<double,double> in_distance_pair = std::make_pair(posin.y(),hin-posin.y());
 
 //        geom.connectionPoints(in_distance_pair,out_distance_pair);
-        QList<QPointF> lp = geom.connectionPoints();
+        QList<QPointF> lp = geom.connectionPoints(1);
         auto cubic = cubicPath(geom);
 
         // cubic spline

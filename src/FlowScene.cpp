@@ -181,6 +181,8 @@ restoreConnection(QJsonObject const &connectionJson)
 //                    p.value("y").toDouble();
 //               turningPoints.append(QPointF(x,y));
 
+
+
             turningPoints.append(QPointF(p.value("x").toDouble(),p.value("y").toDouble()));
 
                //            qDebug()<< "graphicsObject().y():"<< nodeOut->nodeGraphicsObject().y();

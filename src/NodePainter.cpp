@@ -84,13 +84,21 @@ drawNodeRect(QPainter* painter,
         painter->setPen(p);
     }
 
-    QLinearGradient gradient(QPointF(0.0, 0.0),
-                             QPointF(2.0, geom.height()));
+//    QLinearGradient gradient(QPointF(0.0, 0.0),
+//                             QPointF(2.0, geom.height()));
 
-    gradient.setColorAt(0.0, nodeStyle.GradientColor0);
-    gradient.setColorAt(0.03, nodeStyle.GradientColor1);
-    gradient.setColorAt(0.97, nodeStyle.GradientColor2);
-    gradient.setColorAt(1.0, nodeStyle.GradientColor3);
+//    gradient.setColorAt(0.0, nodeStyle.GradientColor0);
+//    gradient.setColorAt(0.03, nodeStyle.GradientColor1);
+//    gradient.setColorAt(0.97, nodeStyle.GradientColor2);
+//    gradient.setColorAt(1.0, nodeStyle.GradientColor3);
+
+
+    QLinearGradient gradient(QPointF(0,0),QPointF(0,1.5));
+
+        gradient.setColorAt(0.0, nodeStyle.GradientColor0);
+        gradient.setColorAt(1.0, nodeStyle.GradientColor1);
+//        gradient.setColorAt(0.1, nodeStyle.GradientColor2);
+//        gradient.setColorAt(1.0, nodeStyle.GradientColor3);
 
     painter->setBrush(gradient);
 
@@ -267,7 +275,7 @@ drawModelName(QPainter * painter,
     auto rect = metrics.boundingRect(name);
 
     QPointF position((geom.width() - rect.width()) / 2.0,
-                     (geom.spacing() + geom.entryHeight()) / 3.0);
+                     (geom.spacing() + geom.entryHeight()) / 2.5);
 
     painter->setFont(f);
     painter->setPen(nodeStyle.FontColor);

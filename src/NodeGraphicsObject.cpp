@@ -208,7 +208,9 @@ mousePressEvent(QGraphicsSceneMouseEvent * event)
       !(event->modifiers() & Qt::ControlModifier))
   {
     _scene.clearSelection();
+    this->setSelected(true);
   }
+
 
   for (PortType portToCheck: {PortType::In, PortType::Out})
   {

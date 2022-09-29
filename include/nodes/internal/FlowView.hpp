@@ -3,6 +3,7 @@
 #include <QtWidgets/QGraphicsView>
 
 #include "Export.hpp"
+//#include <QObject>
 
 namespace QtNodes
 {
@@ -10,9 +11,12 @@ namespace QtNodes
 class FlowScene;
 
 class NODE_EDITOR_PUBLIC FlowView
-  : public QGraphicsView
+  : /*public QObject,*/ public QGraphicsView
 {
   Q_OBJECT
+//    Q_OBJECT
+//  public:
+
 public:
 
   FlowView(QWidget *parent = Q_NULLPTR);
@@ -26,6 +30,13 @@ public:
   QAction* deleteSelectionAction() const;
 
   void setScene(FlowScene *scene);
+
+  //gzl
+  float tm11() const;
+
+  //gzl
+Q_SIGNALS:
+  void signal_scale_param(float scale_param_height);
 
 public Q_SLOTS:
 
@@ -53,6 +64,8 @@ protected:
 
   void showEvent(QShowEvent *event) override;
 
+
+
 protected:
 
   FlowScene * scene();
@@ -61,9 +74,13 @@ private:
 
   QAction* _clearSelectionAction;
   QAction* _deleteSelectionAction;
+  //gzl
+//  float _scale_param;
 
   QPointF _clickPos;
 
   FlowScene* _scene;
+
+
 };
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 
+
 #include <QtWidgets/QtWidgets>
 #include <QtWidgets/QGraphicsEffect>
 
@@ -10,6 +11,7 @@
 #include "ConnectionState.hpp"
 
 #include "FlowScene.hpp"
+#include <FlowView.hpp>
 #include "NodePainter.hpp"
 
 #include "Node.hpp"
@@ -17,10 +19,12 @@
 #include "NodeConnectionInteraction.hpp"
 
 #include "StyleCollection.hpp"
+#include <ctime>
 
 using QtNodes::NodeGraphicsObject;
 using QtNodes::Node;
 using QtNodes::FlowScene;
+//using QtNodes::FlowView;
 
 NodeGraphicsObject::
 NodeGraphicsObject(FlowScene &scene,
@@ -38,7 +42,8 @@ NodeGraphicsObject(FlowScene &scene,
   setFlag(QGraphicsItem::ItemIsSelectable, true);
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
 
-  setCacheMode( QGraphicsItem::DeviceCoordinateCache );
+
+
 
   auto const &nodeStyle = node.nodeDataModel()->nodeStyle();
 
@@ -65,7 +70,46 @@ NodeGraphicsObject(FlowScene &scene,
   };
   connect(this, &QGraphicsObject::xChanged, this, onMoveSlot);
   connect(this, &QGraphicsObject::yChanged, this, onMoveSlot);
+
+  //gzl
+  connect(&scene, &FlowScene::scale_param_intern1, this, &NodeGraphicsObject::reset_cache_mode);
+
 }
+
+//gzl
+void
+NodeGraphicsObject::reset_cache_mode(float scale_param_height){
+    //获取需要生成的模块矩形的长和宽
+    int h=this->boundingRect().height();
+//    int w=this->boundingRect().width();
+//    float h=scale_param_height;
+    std::cout<<"\nheight: "<<h<<std::endl;
+    std::cout<<"\nscale_param_height: "<<scale_param_height<<std::endl;
+    std::cout<<"\ntime: "<<std::time(0)<<std::endl;
+
+
+  //  scene.views().at(0)
+    //根据模块尺寸选择显示模式
+    //添加放大倍数判断
+    if((h>1000) || (scale_param_height>1)){
+        //  无缓存模式，显示完全且清晰，不做缓存，然后每次都会重新绘制
+          QGraphicsItem::setCacheMode(QGraphicsItem::NoCache);
+          std::cout<<"\nmode_no_cache"<<std::endl;
+    }
+    else{
+        //高质量模式，但是会有过长的模块显示不全的问题
+        QGraphicsItem::setCacheMode( QGraphicsItem::DeviceCoordinateCache );
+        std::cout<<"\nmode_device_coordinate_cache"<<std::endl;
+    }
+
+
+    ////  低质量模式，像素很渣，但是能显示全從
+    ////   设置模块显示的固定像素大小
+    //  auto size = QSize(NodeGraphicsObject::boundingRect().width()*2,
+    //                    NodeGraphicsObject::boundingRect().height()*2);
+    //  std::cout<<"\nQsize"<<size.rheight()<<" "<<size.rwidth()<<std::endl;
+    //  setCacheMode( QGraphicsItem::ItemCoordinateCache, size);
+  }
 
 
 NodeGraphicsObject::

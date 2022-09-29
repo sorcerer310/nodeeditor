@@ -97,6 +97,9 @@ public:
 
   std::vector<Node*> selectedNodes() const;
 
+  //gzl
+//  float scale_param;
+
 public:
 
   void clearScene();
@@ -111,6 +114,8 @@ public:
 
 Q_SIGNALS:
 
+  //gzl
+  void scale_param_intern1(float scale_param_height);
   /**
    * @brief Node has been created but not on the scene yet.
    * @see nodePlaced()
@@ -166,9 +171,16 @@ private Q_SLOTS:
 
   void sendConnectionCreatedToNodes(Connection const& c);
   void sendConnectionDeletedToNodes(Connection const& c);
+
+//  //gzl
+//public Q_SLOTS:
+//  void scale_param_intern2(float scale_param_height);
+
 };
 
 Node*
 locateNodeAt(QPointF scenePoint, FlowScene &scene,
              QTransform const & viewTransform);
+
+
 }

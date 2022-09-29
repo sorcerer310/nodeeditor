@@ -14,6 +14,7 @@ namespace QtNodes
 {
 
 class FlowScene;
+class FlowView;
 class FlowItemEntry;
 
 /// Class reacts on GUI events, mouse clicks and
@@ -101,5 +102,9 @@ private:
 
   // either nullptr or owned by parent QGraphicsItem
   QGraphicsProxyWidget * _proxyWidget;
+
+  //gzl
+public Q_SLOTS:
+  void reset_cache_mode(float scale_param_height);
 };
 }

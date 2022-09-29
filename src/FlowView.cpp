@@ -1,5 +1,7 @@
 #include "FlowView.hpp"
 
+#include <QObject>
+
 #include <QtWidgets/QGraphicsScene>
 
 #include <QtGui/QPen>
@@ -58,6 +60,7 @@ FlowView(FlowScene *scene, QWidget *parent)
   : FlowView(parent)
 {
   setScene(scene);
+
 }
 
 
@@ -95,6 +98,18 @@ FlowView::setScene(FlowScene *scene)
   _deleteSelectionAction->setShortcut(Qt::Key_Delete);
   connect(_deleteSelectionAction, &QAction::triggered, this, &FlowView::deleteSelectedNodes);
   addAction(_deleteSelectionAction);
+
+  //gzl
+//  QObject::connect(comboBoxVersion, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), this, &RepositoryWidget::slotDisplayVersion);
+
+//  connect(this, &FlowView::signal_scale_param, scene, &FlowScene::scale_param_intern2);
+  connect(this, &FlowView::signal_scale_param,scene,[=](float scale_param_height){
+
+      //    std::cout<<"\nyes1"<<scale_param_height<<std::endl;
+      Q_EMIT scene->scale_param_intern1(scale_param_height);
+
+  });
+//  QObject::connect(this, SIGNAL(signal_scale_param(float)), _scene, SLOT(rest_cache_mode(float)));
 }
 
 
@@ -203,6 +218,10 @@ contextMenuEvent(QContextMenuEvent *event)
   modelMenu.exec(event->globalPos());
 }
 
+//gzl
+float FlowView::tm11() const{
+    return this->transform().m11();
+}
 
 void
 FlowView::
@@ -218,10 +237,24 @@ wheelEvent(QWheelEvent *event)
 
   double const d = delta.y() / std::abs(delta.y());
 
+
   if (d > 0.0)
     scaleUp();
   else
     scaleDown();
+  //gzl
+//  QTransform t1 = transform();
+//  this->scale_param=t1.m11();
+//  std::cout<<"\nmatrix11: "<<this->scale_param<<std::endl;
+//  this->scale_param=3.14159265358979;
+//  this->setScene();
+//  std::cout<<"\ntime: "<<std::time(0)<<std::endl;
+  auto scale_param_height=this->tm11();
+//  auto scene=this->scene();
+//  connect(this, SIGNAL(signal_scale_param(int)), scene, SLOT(reset_cache_mode(int)));
+  Q_EMIT signal_scale_param(scale_param_height);
+
+
 }
 
 
@@ -408,3 +441,17 @@ scene()
 {
   return _scene;
 }
+
+
+//namespace QtNodes {
+//float FlowView::scale_param() const
+//{
+//    return _scale_param;
+//}
+
+//void FlowView::setScale_param(float newScale_param)
+//{
+//    _scale_param = newScale_param;
+//}
+
+//}
